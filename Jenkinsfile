@@ -2,25 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('build') {
+        
+        stage('Build Docker Image') {
             steps {
-                echo 'Hello Jenkins 👋'
-                echo 'code is built'
+                script {
+                    //dockerImage = docker.build("myapp:${env.BUILD_NUMBER}")
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ." 
+                }
             }
         }
-        stage('test') {
-            steps {
-                echo 'test is success'
-            }
-        }
-    }
 
-    post {
-        success {
-            echo 'Pipeline finished successfully ✅'
-        }
-        failure {
-            echo 'Pipeline failed ❌'
+        stage('Run Container') {
+            steps {
+                script {
+                    //dockerImage.run("-p 5000:5000")
+                    sh "docker run -d -p 5000:5000 --name demo-container ${IMAGE_NAME}:${IMAGE_TAG}" 
+
+                }
+            }
         }
     }
 }
