@@ -1,28 +1,26 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "myapp"
-        IMAGE_TAG  = "${BUILD_NUMBER}"
-    }
-
     stages {
-
-        stage('Build Docker Image') {
+        stage('Clone Repo') {
             steps {
-                sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                git 'https://github.com/Rayhan-abdullha/jenkins-p.git'
             }
         }
-
-        stage('Run Container') {
+        stage('Build') {
             steps {
-                sh '''
-                docker rm -f demo-container || true
-                docker run -d -p 5000:5000 --name demo-container ${IMAGE_NAME}:${IMAGE_TAG}
-                '''
+                echo 'Building the app...'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
             }
         }
     }
 }
-
-
