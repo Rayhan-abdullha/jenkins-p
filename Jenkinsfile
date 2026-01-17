@@ -2,28 +2,17 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repo') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/Rayhan-abdullha/jenkins-p.git'
+                git url: 'https://github.com/Rayhan-abdullha/jenkins-p.git', branch: 'main'
             }
         }
+
         stage('Build') {
             steps {
-                echo 'Building the app...'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application...'
+                echo 'Building...'
             }
         }
     }
 }
-
-
 
