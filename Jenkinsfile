@@ -2,17 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Build Docker Image') {
             steps {
-                git url: 'https://github.com/Rayhan-abdullha/jenkins-p.git', branch: 'main'
+                sh 'docker build -t myapp:latest .'
             }
         }
 
-        stage('Build') {
+        stage('Run Docker Container') {
             steps {
-                echo 'Building...'
+                sh "docker run -d -p 5000:5000 --name demo-container myapp:latest"
             }
         }
     }
 }
-
